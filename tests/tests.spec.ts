@@ -62,5 +62,49 @@ test.describe('login form', () => {
                 })
             })
         })
+    });
+    test('registration', async ({ page }) => {
+        const register = page.getByTestId('switch-to-register-button');
+        const registerTitle = page.getByTestId('register-title');
+        const namefield = page.getByTestId('register-name-input');
+        const emailfield = page.getByTestId('register-email-input');
+        const passwordfield = page.getByTestId('register-password-input');
+        const confirmpassword = page.getByTestId('register-confirm-password-input');
+        const registerbutton = page.getByTestId('register-submit-button');
+        const dashboardtitle = page.getByTestId ('dashboard-title');
+        await test.step('click registration link', async () => {
+            //клікнути лінк реєстрації
+            await (register).click();
+            await test.step('registration title', async () => {
+                //тайтл реєстрації
+                await expect(registerTitle).toBeVisible();
+                await test.step('заповнити поле імені', async () => {
+                    //заповнити ім'я
+                    await (namefield).fill('Ivan1')
+
+                });
+                await test.step('заповнити пошту', async () => {
+                    //заповнити пошту
+                    await (emailfield).fill('test1@mail.com')
+                });
+                await test.step('заповнити поле паролю', async () => {
+                    //заповнити пароль
+                    await (passwordfield).fill('1123456')
+                });
+                await test.step('підтвердити пароль', async () => {
+                    //підтвердити пароль
+                    await (confirmpassword).fill('1123456')
+                });
+                await test.step('натиснути кнопку реєстрації', async () => {
+                    //натиснути кнопку реєстрації
+                    await (registerbutton).click ();
+                    await test.step('dashboard title', async () => {
+                    //панель управління відкривається
+                    await expect(dashboardtitle).toBeVisible();
+                });
+            })
+
+        })
     })
+})
 })
