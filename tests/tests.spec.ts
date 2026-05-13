@@ -71,7 +71,7 @@ test.describe('login form', () => {
         const passwordfield = page.getByTestId('register-password-input');
         const confirmpassword = page.getByTestId('register-confirm-password-input');
         const registerbutton = page.getByTestId('register-submit-button');
-        const dashboardtitle = page.getByTestId ('dashboard-title');
+        const dashboardtitle = page.getByTestId('dashboard-title');
         await test.step('click registration link', async () => {
             //клікнути лінк реєстрації
             await (register).click();
@@ -97,14 +97,11 @@ test.describe('login form', () => {
                 });
                 await test.step('натиснути кнопку реєстрації', async () => {
                     //натиснути кнопку реєстрації
-                    await (registerbutton).click ();
+                    await (registerbutton).click();
                     await test.step('dashboard title', async () => {
-                    //панель управління відкривається
-                    await expect(dashboardtitle).toBeVisible();
-                });
+                        //панель управління відкривається
+                        await expect(dashboardtitle).toBeVisible();
+                    });
+                })
             })
-
         })
-    })
-})
-})
