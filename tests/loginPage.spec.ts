@@ -51,7 +51,7 @@ test.describe('Login form', () => {
         await test.step('Open registration page', async () => {
             await loginPage.openRegistration();
             await expect(loginPage.registerTitle).toBeVisible();
-        });
+        }):
 
 
 
