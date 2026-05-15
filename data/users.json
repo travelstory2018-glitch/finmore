@@ -1,0 +1,23 @@
+
+{"validUser": {
+    "name": "Ivan",
+"email": "admin@test.com",
+"password": "Admin123!"
+
+    },
+
+
+"invalidUser": {
+"email": "wrong@test.com",
+ "password": "Wrong123!"
+
+    },
+
+
+ "newUser": {
+"name": "Ivan",
+"email": "ivan@test.com",
+"password": "Test123!"
+
+    }
+}

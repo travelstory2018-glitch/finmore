@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 
-export class Registrationpage {
+export class RegistrationPage {
     readonly page: Page;
 
     // Registration
@@ -13,7 +13,8 @@ export class Registrationpage {
     readonly registerSubmitButton: Locator;
     readonly nameError: Locator;
     readonly emailError: Locator;
-    readonly passwordError: Locator
+    readonly passwordError: Locator;
+    readonly confirmPasswordError: Locator
 
 
     // Dashboard
@@ -34,7 +35,9 @@ export class Registrationpage {
         this.registerSubmitButton = page.getByTestId('register-submit-button');
         this.nameError = page.getByTestId('name-error');
         this.emailError = page.getByTestId('email-error');
-        this.passwordError = page.getByTestId('password-error')
+        this.passwordError = page.getByTestId('password-error');
+        this.confirmPasswordError = page.getByTestId('confirm-password-error');
+
 
 
 
@@ -76,7 +79,7 @@ export class Registrationpage {
         await expect(this.dashboardTitle).toBeVisible();
 
     }
-    async expecNameError() {
+    async expectNameError() {
         expect(this.nameError)
     }
     async expectEmailError() {
@@ -84,5 +87,8 @@ export class Registrationpage {
     }
      async expectPasswordError() {
     expect(this.passwordError)
+}
+async expectConfirmPasswordError() {
+    expect(this.confirmPasswordError)
 }
 }
