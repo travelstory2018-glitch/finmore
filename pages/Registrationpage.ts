@@ -1,3 +1,4 @@
+import { th } from '@faker-js/faker';
 import { expect, Locator, Page } from '@playwright/test';
 
 export class RegistrationPage {
@@ -14,7 +15,10 @@ export class RegistrationPage {
     readonly nameError: Locator;
     readonly emailError: Locator;
     readonly passwordError: Locator;
-    readonly confirmPasswordError: Locator
+    readonly confirmPasswordError: Locator;
+    readonly registerCurrencySelect: Locator;
+
+
 
 
     // Dashboard
@@ -37,6 +41,8 @@ export class RegistrationPage {
         this.emailError = page.getByTestId('email-error');
         this.passwordError = page.getByTestId('password-error');
         this.confirmPasswordError = page.getByTestId('confirm-password-error');
+        this.registerCurrencySelect = page.getByTestId('register-currency-select');
+
 
 
 
@@ -60,13 +66,15 @@ export class RegistrationPage {
         password: string,
         confirmPassword: string
     ) {
+        const currencies = ['USD', 'EUR', 'UAH', 'PLN'];
+
+    const randomCurrency =
+        currencies[Math.floor(Math.random() * currencies.length)];
         await this.registerNameInput.fill(name);
         await this.registerEmailInput.fill(email);
         await this.registerPasswordInput.fill(password);
         await this.registerConfirmPasswordInput.fill(confirmPassword);
-
-
-
+        await this.registerCurrencySelect.selectOption(randomCurrency);
         await this.registerSubmitButton.click();
     }
     async expectRegistrationPage() {
@@ -80,15 +88,16 @@ export class RegistrationPage {
 
     }
     async expectNameError() {
-        expect(this.nameError)
+        expect(this.nameError).toBeVisible();
     }
     async expectEmailError() {
-        expect(this.emailError)
+        expect(this.emailError).toBeVisible();
     }
-     async expectPasswordError() {
-    expect(this.passwordError)
-}
-async expectConfirmPasswordError() {
-    expect(this.confirmPasswordError)
-}
-}
+    async expectPasswordError() {
+        expect(this.passwordError);
+    }
+    async expectConfirmPasswordError() {
+        expect(this.confirmPasswordError);
+    }
+    
+    }
