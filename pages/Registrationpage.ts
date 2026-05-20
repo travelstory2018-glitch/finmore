@@ -66,7 +66,7 @@ export class RegistrationPage {
         password: string,
         confirmPassword: string
     ) {
-        const currencies = ['USD', 'EUR', 'UAH', 'PLN'];
+        const currencies = ['UAH', 'USD', 'EUR', 'GBP'];
 
     const randomCurrency =
         currencies[Math.floor(Math.random() * currencies.length)];

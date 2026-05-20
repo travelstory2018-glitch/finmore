@@ -144,12 +144,13 @@ test.describe('Registration', () => {
             user.password,
             user.password
         );
+    
     });
 
     await test.step('Verify dashboard is opened', async () => {
         await registrationPage.expectDashboard();
     });
+
+    
    })
-
-
-})
+     })
