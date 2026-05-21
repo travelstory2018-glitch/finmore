@@ -1,6 +1,6 @@
 import { th } from '@faker-js/faker';
 import { expect, Locator, Page } from '@playwright/test';
-
+import * as GeneralMethods from '../helper/GeneralMethods'
 export class RegistrationPage {
     readonly page: Page;
 
@@ -55,7 +55,8 @@ export class RegistrationPage {
         await this.page.goto('/');
     }
     async openRegistration() {
-        await this.switchToRegisterButton.click();
+        // await this.switchToRegisterButton.click();
+        await GeneralMethods.click(this.switchToRegisterButton, "Registration open")
     }
 
 
@@ -64,18 +65,22 @@ export class RegistrationPage {
         name: string,
         email: string,
         password: string,
-        confirmPassword: string
+        confirmPassword: string,
+        currency?: string
     ) {
+       
         const currencies = ['UAH', 'USD', 'EUR', 'GBP'];
 
     const randomCurrency =
+     currency??
         currencies[Math.floor(Math.random() * currencies.length)];
-        await this.registerNameInput.fill(name);
-        await this.registerEmailInput.fill(email);
-        await this.registerPasswordInput.fill(password);
-        await this.registerConfirmPasswordInput.fill(confirmPassword);
+        await GeneralMethods.fill(this.registerNameInput, name);
+        await GeneralMethods.fill(this.registerEmailInput, email);
+        await GeneralMethods.fill(this.registerPasswordInput, password);
+        await GeneralMethods.fill(this.registerConfirmPasswordInput, confirmPassword);
         await this.registerCurrencySelect.selectOption(randomCurrency);
         await this.registerSubmitButton.click();
+        console.log (randomCurrency)
     }
     async expectRegistrationPage() {
         await expect(this.registerTitle).toBeVisible();
@@ -94,10 +99,10 @@ export class RegistrationPage {
         expect(this.emailError).toBeVisible();
     }
     async expectPasswordError() {
-        expect(this.passwordError);
+        expect(this.passwordError).toBeVisible;
     }
     async expectConfirmPasswordError() {
-        expect(this.confirmPasswordError);
+        expect(this.confirmPasswordError).toBeVisible;
     }
     
     }
