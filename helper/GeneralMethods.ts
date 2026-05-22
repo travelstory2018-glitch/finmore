@@ -32,7 +32,6 @@ export async function fill(
     value: string,
     options?: {
         clear?: boolean;
-        pressEnter?: boolean;
         timeout?: number;
     }
 ) {
