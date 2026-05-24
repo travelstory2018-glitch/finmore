@@ -2,9 +2,8 @@ import { expect, Locator, Page } from '@playwright/test';
 
 
 
-// export function click(locator: Locator) {
-//     return locator.click();
-// }
+// click
+
 
 export async function click(locator: Locator, name?: string) {
     try {
@@ -23,9 +22,8 @@ export async function click(locator: Locator, name?: string) {
     }
 }
 
-// export function fill(locator: Locator, value: string) {
-//     return locator.fill(value);
-// }
+// fill
+
 
 export async function fill(
     locator: Locator,
@@ -37,7 +35,6 @@ export async function fill(
 ) {
     const {
         clear = true,
-        pressEnter = false,
         timeout = 5000,
     } = options || {};
 
@@ -52,22 +49,47 @@ export async function fill(
 
     // перевірка що значення реально заповнилось
     await expect(locator).toHaveValue(value);
+}
 
-    if (pressEnter) {
-        await locator.press('Enter');
+
+//  select
+
+export async function select(
+    locator: Locator,
+    value: string,
+    options?: {
+        timeout?: number;
+    }
+) {
+    const {
+        timeout = 5000,
+    } = options || {};
+
+    try {
+        console.log(`Select option: ${value}`);
+
+        await expect(locator).toBeVisible({ timeout });
+        await expect(locator).toBeEnabled({ timeout });
+
+        await locator.selectOption(value);
+
+        // перевірка що значення реально вибралось
+        await expect(locator).toHaveValue(value);
+
+        console.log(`Select success: ${value}`);
+    } catch (error) {
+        console.error(`Select failed: ${value}`);
+
+        throw new Error(
+            `Select failed for value "${value}"\n${error}`
+        );
     }
 }
 
 
-export function select(locator: Locator, value: string) {
-    return locator.selectOption(value);
-}
 
 
-
-export function expectVisible(locator: Locator) {
-    return expect(locator).toBeVisible();
-}
+// expectVisible
 
 
 
@@ -81,3 +103,29 @@ export function waitForUrl(page: Page, url: string | RegExp) {
     return page.waitForURL(url);
 }
 
+export async function expectVisible(
+    locator: Locator,
+    options?: {
+        timeout?: number;
+        name?: string;
+    }
+) {
+    const {
+        timeout = 5000,
+        name = 'unknown',
+    } = options || {};
+
+    try {
+        console.log(`Check visible: ${name}`);
+
+        await expect(locator).toBeVisible({ timeout });
+
+        console.log(`Visible success: ${name}`);
+    } catch (error) {
+        console.error(`Visible check failed: ${name}`);
+
+        throw new Error(
+            `Element is not visible: ${name}\n${error}`
+        );
+    }
+}

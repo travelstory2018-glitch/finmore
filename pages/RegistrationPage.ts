@@ -78,7 +78,7 @@ export class RegistrationPage {
         await GeneralMethods.fill(this.registerEmailInput, email);
         await GeneralMethods.fill(this.registerPasswordInput, password);
         await GeneralMethods.fill(this.registerConfirmPasswordInput, confirmPassword);
-        await this.registerCurrencySelect.selectOption(randomCurrency);
+        await GeneralMethods.select(this.registerCurrencySelect, randomCurrency);
         await this.registerSubmitButton.click();
         console.log (randomCurrency)
     }
@@ -89,7 +89,7 @@ export class RegistrationPage {
 
 
     async expectDashboard() {
-        await expect(this.dashboardTitle).toBeVisible();
+        await GeneralMethods.expectVisible(this.dashboardTitle);
 
     }
     async expectNameError() {
@@ -99,10 +99,10 @@ export class RegistrationPage {
         expect(this.emailError).toBeVisible();
     }
     async expectPasswordError() {
-        expect(this.passwordError).toBeVisible;
+        expect(this.passwordError).toBeVisible();
     }
     async expectConfirmPasswordError() {
-        expect(this.confirmPasswordError).toBeVisible;
+        expect(this.confirmPasswordError).toBeVisible();
     }
     
     }
