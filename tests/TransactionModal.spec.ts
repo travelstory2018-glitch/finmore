@@ -24,4 +24,24 @@ test.describe('Transactions', () => {
             transactionModal.transactionFormTitle
         ).toHaveText('Нова транзакція');
     });
+
+   test('User can add expense', async ({ page }) => {
+    const transactionModal = new TransactionModal(page);
+
+    const description = 'Тестова транзакція';
+    const amount = '-500.00 UAH';
+
+    await transactionModal.openModal();
+
+    await expect(transactionModal.transactionFormTitle)
+        .toHaveText('Нова транзакція');
+
+    const transactionId = await transactionModal.createExpenseTransaction();
+
+    const item = transactionModal.getRecentTransactionById(transactionId);
+
+    await expect(item).toBeVisible();
+    await expect(item).toContainText(description);
+    await expect(item).toContainText(amount);
+});
 })
