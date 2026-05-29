@@ -52,34 +52,35 @@ test.describe('Transactions filters', () => {
     test('Filter by type - expense',
         async ({ page, seededTransactions }) => {
 
-        const transactions = new TransactionModal(page);
+            const transactions = new TransactionModal(page);
+            await transactions.openFilters();
 
-        await transactions.setType('expense');
+            await transactions.setType('expense');
 
-        await expect(
-            transactions.items.first()
-        ).toBeVisible();
-    });
+            await expect(
+                transactions.items.first()
+            ).toBeVisible();
+        });
 
     test('Search filter',
         async ({ page, seededTransactions }) => {
 
-        const transactions = new TransactionModal(page);
-        await transactions.openFilters();
+            const transactions = new TransactionModal(page);
+            await transactions.openFilters();
 
-        await transactions.setSearch('test');
+            await transactions.setSearch('test');
 
-        const descriptions = page.locator(
-            '[data-testid^="transaction-description-"]'
-        );
+            const descriptions = page.locator(
+                '[data-testid^="transaction-description-"]'
+            );
 
-        const count = await descriptions.count();
+            const count = await descriptions.count();
 
-        for (let i = 0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
 
-            await expect(
-                descriptions.nth(i)
-            ).toContainText('test');
-        }
-    });
+                await expect(
+                    descriptions.nth(i)
+                ).toContainText('test');
+            }
+        });
 })
