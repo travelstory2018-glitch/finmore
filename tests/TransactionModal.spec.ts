@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../tests/fixtures/transactions.fixture';
 import { LoginPage } from '../pages/LoginPage';
 import { TransactionModal } from '../pages/TransactionModal';
 
@@ -49,25 +49,8 @@ test.describe('Transactions', () => {
 
 test.describe('Transactions filters', () => {
 
-    test.beforeEach(async ({ page }) => {
-
-        const loginPage = new LoginPage(page);
-
-        await loginPage.goto();
-
-        await loginPage.login(
-            'admin@demo.com',
-            'admin123'
-        );
-
-        await page.waitForLoadState('networkidle');
-
-        const transactions =
-            new TransactionModal(page);
-
-        await transactions.openTransactionsPage();
-    });
-    test('Filter by type - expense', async ({ page }) => {
+    test('Filter by type - expense',
+        async ({ page, seededTransactions }) => {
 
         const transactions = new TransactionModal(page);
 
@@ -78,9 +61,11 @@ test.describe('Transactions filters', () => {
         ).toBeVisible();
     });
 
-    test('Search filter', async ({ page }) => {
+    test('Search filter',
+        async ({ page, seededTransactions }) => {
 
         const transactions = new TransactionModal(page);
+        await transactions.openFilters();
 
         await transactions.setSearch('test');
 

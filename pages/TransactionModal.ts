@@ -20,13 +20,16 @@ export class TransactionModal {
     readonly dateInput: Locator;
     readonly accountSelect: Locator;
     readonly recentTransactionItem: Locator;
+    
 
     // filters
+    readonly openFiltersButton: Locator;
     readonly typeFilter: Locator;
     readonly categoryFilter: Locator;
     readonly dateFrom: Locator;
     readonly dateTo: Locator;
     readonly searchFilter: Locator;
+    
 
     // items
     readonly items: Locator;
@@ -69,6 +72,8 @@ export class TransactionModal {
             page.getByTestId('transaction-account-select');
 
         // filters
+        this.openFiltersButton = 
+        page.getByTestId('toggle-filters-button');
         this.typeFilter =
             page.getByTestId('type-filter');
 
@@ -199,5 +204,8 @@ export class TransactionModal {
     async expectItemsCount(count: number) {
 
         await expect(this.items).toHaveCount(count);
+    }
+    async openFilters() {
+        await this.openFiltersButton.click();
     }
 }
