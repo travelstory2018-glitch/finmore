@@ -1,9 +1,15 @@
 import { th } from '@faker-js/faker';
 import { expect, Locator, Page } from '@playwright/test';
-import * as GeneralMethods from '../helper/GeneralMethods'
+import * as GeneralMethods from '../helper/GeneralMethods';
+
 export class TransactionModal {
+
     readonly page: Page;
-   //Add transactions
+
+    // navigation
+    readonly navTransactionsButton: Locator;
+
+    // Add transactions
     readonly addTransactionButton: Locator;
     readonly transactionModal: Locator;
     readonly transactionFormTitle: Locator;
@@ -14,32 +20,86 @@ export class TransactionModal {
     readonly dateInput: Locator;
     readonly accountSelect: Locator;
     readonly recentTransactionItem: Locator;
-    
 
+    // filters
+    readonly typeFilter: Locator;
+    readonly categoryFilter: Locator;
+    readonly dateFrom: Locator;
+    readonly dateTo: Locator;
+    readonly searchFilter: Locator;
 
-
+    // items
+    readonly items: Locator;
 
     constructor(page: Page) {
- this.page = page;
+
+        this.page = page;
+
+        // navigation
+        this.navTransactionsButton =
+            page.getByTestId('nav-transactions');
 
         // buttons
-        this.addTransactionButton = page.getByTestId('add-transaction-button');
-        this.createTransactionButton = page.getByTestId('transaction-form-submit');
+        this.addTransactionButton =
+            page.getByTestId('add-transaction-button');
+
+        this.createTransactionButton =
+            page.getByTestId('transaction-form-submit');
 
         // modal
-        this.transactionModal = page.getByTestId('transaction-modal');
-        this.transactionFormTitle = page.getByTestId('transaction-form-title');
-        this.amountInput = page.getByTestId('transaction-amount-input');
-        this.categorySelect = page.getByTestId('transaction-category-select');
-        this.descriptionInput = page.getByTestId('transaction-description-input');
-        this.dateInput = page.getByTestId('transaction-date-input');
-        this.accountSelect = page.getByTestId('transaction-account-select')
+        this.transactionModal =
+            page.getByTestId('transaction-modal');
 
-        //transactions
-        this.recentTransactionItem = page.locator('[data-testid^="recent-transaction-"]'
-).first();
+        this.transactionFormTitle =
+            page.getByTestId('transaction-form-title');
 
+        this.amountInput =
+            page.getByTestId('transaction-amount-input');
 
+        this.categorySelect =
+            page.getByTestId('transaction-category-select');
+
+        this.descriptionInput =
+            page.getByTestId('transaction-description-input');
+
+        this.dateInput =
+            page.getByTestId('transaction-date-input');
+
+        this.accountSelect =
+            page.getByTestId('transaction-account-select');
+
+        // filters
+        this.typeFilter =
+            page.getByTestId('type-filter');
+
+        this.categoryFilter =
+            page.getByTestId('category-filter');
+
+        this.dateFrom =
+            page.getByTestId('date-from-filter');
+
+        this.dateTo =
+            page.getByTestId('date-to-filter');
+
+        this.searchFilter =
+            page.getByTestId('search-filter');
+
+        // items
+        this.items =
+            page.locator('[data-testid^="transaction-item-"]');
+
+        // transactions
+        this.recentTransactionItem =
+            page.locator('[data-testid^="recent-transaction-"]')
+                .first();
+    }
+
+    async openTransactionsPage() {
+
+        await GeneralMethods.click(
+            this.navTransactionsButton,
+            'Open transactions page'
+        );
     }
 
     async openModal() {
@@ -50,11 +110,11 @@ export class TransactionModal {
         );
     }
 
-async createExpenseTransaction() {
+    async createExpenseTransaction() {
 
         await GeneralMethods.fill(
             this.amountInput,
-            '500'
+            '700'
         );
 
         await GeneralMethods.select(
@@ -83,6 +143,7 @@ async createExpenseTransaction() {
             this.createTransactionButton,
             'Create transaction'
         );
+
         const transactionId = await this.page
             .locator('[data-testid^="recent-transaction-"]')
             .first()
@@ -92,13 +153,51 @@ async createExpenseTransaction() {
             throw new Error('Transaction ID not found');
         }
 
-        return transactionId.replace('recent-transaction-', '');
+        return transactionId.replace(
+            'recent-transaction-',
+            ''
+        );
     }
 
     getRecentTransactionById(id: string) {
-        return this.page.getByTestId(`recent-transaction-${id}`);
+
+        return this.page.getByTestId(
+            `recent-transaction-${id}`
+        );
+    }
+
+    async open() {
+
+        await this.page.goto('/transactions');
+    }
+
+    async setType(value: string) {
+
+        await this.typeFilter.selectOption(value);
+    }
+
+    async setCategory(value: string) {
+
+        await this.categoryFilter.selectOption(value);
+    }
+
+    async setSearch(text: string) {
+
+        await this.searchFilter.fill(text);
+    }
+
+    async setDateFrom(date: string) {
+
+        await this.dateFrom.fill(date);
+    }
+
+    async setDateTo(date: string) {
+
+        await this.dateTo.fill(date);
+    }
+
+    async expectItemsCount(count: number) {
+
+        await expect(this.items).toHaveCount(count);
     }
 }
-
-
-
