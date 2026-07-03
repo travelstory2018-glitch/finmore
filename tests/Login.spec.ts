@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { LoginPage } from '../Pages/Loginpage';
+import { LoginPage } from '../pages/LoginPage';
 
 test.describe('Login form', () => {
     let loginPage: LoginPage;
